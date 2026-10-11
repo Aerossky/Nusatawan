@@ -22,8 +22,5 @@ export default {
             }
         },
     },
-    plugins: [
-        require('flowbite/plugin')
-    ],
-    darkMode: 'false',
+    darkMode: false,
 };

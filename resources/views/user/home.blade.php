@@ -5,7 +5,7 @@
     {{-- Hero Section --}}
     <section class="relative min-h-screen bg-cover bg-center bg-no-repeat"
         style="background-image: url('{{ asset('images/hero.png') }}');">
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div> <!-- Overlay untuk teks lebih terbaca -->
+        <div class="absolute inset-0 bg-black/50"></div> <!-- Overlay untuk teks lebih terbaca -->
 
         <div
             class="relative mx-auto w-screen max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32 flex flex-col items-center justify-center text-center min-h-screen">
@@ -75,7 +75,7 @@
                                     <!-- Category Badge -->
                                     <div class="absolute top-3 left-3">
                                         <span
-                                            class="bg-white bg-opacity-90 text-blue-600 text-xs font-medium px-2.5 py-1 rounded-full">
+                                            class="bg-white/90 text-blue-600 text-xs font-medium px-2.5 py-1 rounded-full">
                                             {{ $destination->category->name }}
                                         </span>
                                     </div>
@@ -83,7 +83,7 @@
                                     <!-- Rating Badge -->
                                     <div class="absolute bottom-3 right-3">
                                         <div
-                                            class="bg-white bg-opacity-90 text-amber-500 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
+                                            class="bg-white/90 text-amber-500 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 class="h-3.5 w-3.5 mr-1 text-amber-500 fill-amber-500" viewBox="0 0 20 20">
                                                 <path
@@ -404,7 +404,7 @@
     </div>
 
     {{-- Pop Up CTA --}}
-    <div id="ctaPopup" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+    <div id="ctaPopup" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-lg shadow-xl p-6 max-w-md mx-4">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold text-gray-800">Bagikan Destinasi Favorit Anda!</h3>

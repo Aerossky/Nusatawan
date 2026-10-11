@@ -142,7 +142,7 @@
                                                 checked>
                                         </div>
 
-                                        <div class="absolute bottom-12 right-2 z-10 bg-white bg-opacity-80 p-1 rounded">
+                                        <div class="absolute bottom-12 right-2 z-10 bg-white/80 p-1 rounded">
                                             <input type="radio" name="primary_image" value="{{ $image->id }}"
                                                 class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                                                 {{ ($index === 0 && !$submission->images->contains('is_primary', true)) || $image->is_primary ? 'checked' : '' }}>

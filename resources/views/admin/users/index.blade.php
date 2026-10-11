@@ -132,7 +132,7 @@
         </div>
 
         {{-- Modal Konfirmasi Hapus --}}
-        <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div id="deleteModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center">
             <div class="bg-white rounded-lg shadow-xl p-6 w-96">
                 <div class="flex justify-between items-center mb-4">
                     <h5 class="text-lg font-semibold">Konfirmasi Hapus Pengguna</h5>

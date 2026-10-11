@@ -7,7 +7,7 @@
             <img src="{{ asset('images/indonesia-panorama.jpg') }}" alt="Panorama Indonesia"
                 class="w-full h-full object-cover">
             <!-- Dot Pattern Overlay -->
-            <div class="absolute inset-0 bg-black bg-opacity-40">
+            <div class="absolute inset-0 bg-black/40">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                     <pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
                         <circle cx="3" cy="3" r="1.5" fill="white" opacity="0.2" />
@@ -96,7 +96,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="bg-white p-6 rounded-lg shadow-md text-center transition-transform hover:scale-105">
                     <div
-                        class="bg-primary bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
@@ -108,7 +108,7 @@
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md text-center transition-transform hover:scale-105">
                     <div
-                        class="bg-primary bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z"></path>
                         </svg>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md text-center transition-transform hover:scale-105">
                     <div
-                        class="bg-primary bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"

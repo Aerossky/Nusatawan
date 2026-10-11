@@ -1220,7 +1220,7 @@
                 let overlay = document.createElement('div');
                 overlay.setAttribute('modal-backdrop', '');
                 overlay.classList.add(
-                    'fixed', 'inset-0', 'bg-gray-900', 'bg-opacity-50', 'z-40'
+                    'fixed', 'inset-0', 'bg-gray-900/50', 'z-40'
                 );
                 document.body.appendChild(overlay);
 

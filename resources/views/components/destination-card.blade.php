@@ -21,7 +21,7 @@
 
         <!-- Category Badge -->
         <div class="absolute top-3 left-3">
-            <span class="bg-white bg-opacity-90 text-blue-600 text-xs font-medium px-2.5 py-1 rounded-full">
+            <span class="bg-white/90 text-blue-600 text-xs font-medium px-2.5 py-1 rounded-full">
                 {{ $data->category->name }}
             </span>
         </div>
@@ -29,7 +29,7 @@
         <!-- Rating Badge -->
         <div class="absolute bottom-3 right-3">
             <div
-                class="bg-white bg-opacity-90 text-amber-500 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
+                class="bg-white/90 text-amber-500 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1 text-amber-500 fill-amber-500"
                     viewBox="0 0 20 20">
                     <path
