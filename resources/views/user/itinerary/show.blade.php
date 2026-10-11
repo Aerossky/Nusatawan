@@ -44,15 +44,46 @@
                 </div>
             </div>
 
-            <!-- Edit Button -->
+            <!-- Actions: Share Toggle + Edit -->
             <div class="border-t border-gray-200 px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-                <div class="flex justify-center sm:justify-end">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
+                    {{-- Share toggle --}}
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <span id="public-badge"
+                            class="{{ $itinerary->is_public ? 'inline-flex' : 'hidden' }} items-center gap-1 text-xs text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full">
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Publik
+                        </span>
+                        <button id="copy-link-btn"
+                            data-url="{{ route('user.itinerary.public', $itinerary->slug) }}"
+                            class="{{ $itinerary->is_public ? 'inline-flex' : 'hidden' }} items-center gap-1 px-3 py-1.5 text-xs border border-gray-200 rounded-md hover:bg-gray-50 transition-colors text-gray-600">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                            Salin Link
+                        </button>
+                        <button id="toggle-public-btn"
+                            data-url="{{ route('user.itinerary.toggle-public', $itinerary) }}"
+                            data-is-public="{{ $itinerary->is_public ? 'true' : 'false' }}"
+                            data-public-url="{{ route('user.itinerary.public', $itinerary->slug) }}"
+                            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs border rounded-md transition-colors
+                                {{ $itinerary->is_public ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-blue-200 text-blue-600 hover:bg-blue-50' }}">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="{{ $itinerary->is_public ? 'M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21' : 'M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z' }}"/>
+                            </svg>
+                            <span id="toggle-btn-label">{{ $itinerary->is_public ? 'Jadikan Privat' : 'Buat Publik' }}</span>
+                        </button>
+                    </div>
+
+                    {{-- Edit --}}
                     <a href="{{ route('user.itinerary.edit', $itinerary) }}"
                         class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
                         </svg>
                         Ubah Rencana
                     </a>
@@ -561,6 +592,52 @@
 
 @push('scripts')
     @vite('resources/js/location-search.js')
+    <script>
+        // Share toggle
+        (function () {
+            const toggleBtn = document.getElementById('toggle-public-btn');
+            const copyBtn = document.getElementById('copy-link-btn');
+            const badge = document.getElementById('public-badge');
+            const label = document.getElementById('toggle-btn-label');
+
+            copyBtn?.addEventListener('click', function () {
+                navigator.clipboard.writeText(this.dataset.url).then(() => {
+                    const original = this.innerHTML;
+                    this.innerHTML = '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Tersalin!';
+                    setTimeout(() => { this.innerHTML = original; }, 2000);
+                });
+            });
+
+            toggleBtn?.addEventListener('click', async function () {
+                const isPublic = this.dataset.isPublic === 'true';
+                try {
+                    const res = await fetch(this.dataset.url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                        },
+                    });
+                    const data = await res.json();
+                    const nowPublic = !!data.is_public;
+
+                    this.dataset.isPublic = nowPublic ? 'true' : 'false';
+                    label.textContent = nowPublic ? 'Jadikan Privat' : 'Buat Publik';
+
+                    // Swap hidden ↔ inline-flex (avoid Tailwind class conflict)
+                    badge.classList.remove('hidden', 'inline-flex');
+                    badge.classList.add(nowPublic ? 'inline-flex' : 'hidden');
+                    copyBtn.classList.remove('hidden', 'inline-flex');
+                    copyBtn.classList.add(nowPublic ? 'inline-flex' : 'hidden');
+
+                    this.className = 'inline-flex items-center gap-1 px-3 py-1.5 text-xs border rounded-md transition-colors ' +
+                        (nowPublic ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-blue-200 text-blue-600 hover:bg-blue-50');
+                } catch (e) {
+                    console.error('Toggle public failed', e);
+                }
+            });
+        })();
+    </script>
     <script>
         /**
          * Itinerary Management Script

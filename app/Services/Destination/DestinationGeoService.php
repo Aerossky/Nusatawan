@@ -5,7 +5,6 @@ namespace App\Services\Destination;
 use App\Models\Destination;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class DestinationGeoService
 {
@@ -32,10 +31,6 @@ class DestinationGeoService
      */
     public function getNearbyDestinations(array $filters = []): LengthAwarePaginator
     {
-        // Log input filters untuk debugging
-        Log::info('Input filters:', $filters);
-
-        // Ambil nilai dari filters
         $lat = $filters['lat'] ?? null;
         $lng = $filters['lng'] ?? null;
         $excludeId = $filters['exclude_id'] ?? null;
@@ -44,12 +39,6 @@ class DestinationGeoService
         $sortBy = $filters['sort_by'] ?? null;
         $sort = $filters['sort'] ?? 'distance';
         $maxDistance = $filters['max_distance'] ?? null;
-
-        // Log sort parameters untuk debugging
-        Log::info('Sort parameters:', [
-            'sortBy' => $sortBy,
-            'sort' => $sort
-        ]);
 
         // Mulai base query
         $baseQuery = $this->queryService->buildBaseQuery();
@@ -92,32 +81,22 @@ class DestinationGeoService
         // Menerapkan pengurutan berdasarkan sort_by dengan pattern if-elseif-else
         // untuk menghindari conflict dalam pengurutan
         if ($sortBy === 'newest') {
-            Log::info('Applied sorting: newest');
             $query->orderByDesc('created_at');
         } elseif ($sortBy === 'oldest') {
-            Log::info('Applied sorting: oldest');
             $query->orderBy('created_at');
         } elseif ($sortBy === 'rating_desc') {
-            Log::info('Applied sorting: rating_desc');
             $query->orderByDesc('rating');
         } elseif ($sortBy === 'rating_asc') {
-            Log::info('Applied sorting: rating_asc');
             $query->orderBy('rating');
         } elseif ($sortBy === 'likes_desc') {
-            Log::info('Applied sorting: likes_desc');
             $query->orderByDesc('likes_count');
         } elseif ($sortBy === 'likes_asc') {
-            Log::info('Applied sorting: likes_asc');
             $query->orderBy('likes_count');
         } elseif ($sortBy === 'a_to_z') {
-            Log::info('Applied sorting: a_to_z');
             $query->orderBy('name');
         } elseif ($sortBy === 'z_to_a') {
-            Log::info('Applied sorting: z_to_a');
             $query->orderByDesc('name');
         } else {
-            // Default: sort by distance
-            Log::info('Applied default sorting: distance');
             $query->orderBy('distance');
         }
 
@@ -126,15 +105,7 @@ class DestinationGeoService
             $query->orderBy('distance'); // Secondary sort by distance
         }
 
-        // Paginate
         $paginator = $query->paginate($perPage);
-
-        // Log hasil paginator untuk debugging
-        Log::info('Paginator counts:', [
-            'total' => $paginator->total(),
-            'per_page' => $paginator->perPage(),
-            'current_page' => $paginator->currentPage(),
-        ]);
 
         // Tambahkan relasi (images) ke hasil
         $this->processNearbyResults($paginator);

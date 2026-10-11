@@ -66,11 +66,10 @@ class ReviewService
      */
     private function updateDestinationRating(int $destinationId): void
     {
-        $avgRating = $this->getDestinationRating($destinationId);
-
         Destination::where('id', $destinationId)->update([
-            'rating' => $avgRating,
-            'updated_at' => now(),
+            'rating'       => $this->getDestinationRating($destinationId),
+            'rating_count' => $this->getDestinationReviewCount($destinationId),
+            'updated_at'   => now(),
         ]);
     }
 

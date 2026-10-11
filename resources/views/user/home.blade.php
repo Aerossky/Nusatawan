@@ -1,5 +1,9 @@
 @extends('layouts.user')
 @section('title', 'Beranda')
+@section('meta_description', 'Temukan dan rencanakan perjalanan wisata ke destinasi terbaik Indonesia. Informasi destinasi lengkap terintegrasi prakiraan cuaca 5 hari.')
+@section('og_title', 'Nusatawan — Rencanakan Wisata Indonesia')
+@section('og_description', 'Temukan dan rencanakan perjalanan wisata ke destinasi terbaik Indonesia. Informasi destinasi lengkap terintegrasi prakiraan cuaca 5 hari.')
+@section('canonical', route('user.home'))
 
 @section('content')
     {{-- Hero Section --}}
@@ -139,7 +143,7 @@
                     </span>
                     bawa untuk Anda?
                 </h1>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <p class="text-lg">
                             <span class="text-5xl">🌤️</span> <br>

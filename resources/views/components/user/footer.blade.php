@@ -1,6 +1,6 @@
 <footer class="bg-blue-700 text-white py-8">
     <div class="max-w-screen-xl mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center sm:text-left">
             <!-- Kolom 1: Logo dan Deskripsi -->
             <div>
                 <h2 class="text-2xl font-semibold">Nusatawan.</h2>

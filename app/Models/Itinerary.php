@@ -16,7 +16,8 @@ class Itinerary extends Model
         'title',
         'startDate',
         'endDate',
-        'status'
+        'status',
+        'is_public',
     ];
 
     protected $dates = [

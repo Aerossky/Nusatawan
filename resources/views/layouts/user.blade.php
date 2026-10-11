@@ -5,40 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - Nusatawan</title>
-    <!-- Primary Meta Tags -->
-    <title>Nusatawan</title>
+    <title>@yield('title', 'Nusatawan') - Nusatawan</title>
 
     {{-- manifest --}}
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <link rel="icon" href="{{ asset('images/icon/icon512_rounded.png') }}">
 
-    {{-- <link rel="icon" href="{{ asset('images/logo/nusatawan-logo.png') }}" type="image/png"> --}}
-    <meta name="title" content="Nusatawan" />
-    <meta name="description"
-        content="Nusatawan membantu merencanakan perjalanan wisata di Indonesia dengan informasi destinasi terintegrasi prakiraan cuaca. Temukan tempat wisata favorit dan ketahui kondisi cuaca sebelum berkunjung.">
-    <meta name="keywords"
-        content="wisata Indonesia, prakiraan cuaca wisata, destinasi wisata, perencanaan perjalanan, informasi wisata, cuaca destinasi wisata, pariwisata Indonesia">
+    <meta name="title" content="@yield('title', 'Nusatawan')" />
+    <meta name="description" content="@yield('meta_description', 'Nusatawan membantu merencanakan perjalanan wisata di Indonesia dengan informasi destinasi terintegrasi prakiraan cuaca. Temukan tempat wisata favorit dan ketahui kondisi cuaca sebelum berkunjung.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'wisata Indonesia, prakiraan cuaca wisata, destinasi wisata, perencanaan perjalanan, informasi wisata, cuaca destinasi wisata, pariwisata Indonesia')">
     <meta name="author" content="Nusatawan">
     <meta name="robots" content="index, follow">
     <meta name="language" content="Indonesia">
 
-
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.nusatawan.com/">
-    <meta property="og:title" content="Nusatawan - Informasi Wisata & Prakiraan Cuaca Indonesia">
-    <meta property="og:description"
-        content="Rencanakan perjalanan wisata Anda dengan informasi destinasi dan prakiraan cuaca terintegrasi di seluruh Indonesia.">
-    <meta property="og:image" content="{{ asset('images/logo/nusatawan-logo.png') }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="@yield('canonical', url()->current())">
+    <meta property="og:title" content="@yield('og_title', 'Nusatawan - Informasi Wisata & Prakiraan Cuaca Indonesia')">
+    <meta property="og:description" content="@yield('og_description', 'Rencanakan perjalanan wisata Anda dengan informasi destinasi dan prakiraan cuaca terintegrasi di seluruh Indonesia.')">
+    <meta property="og:image" content="@yield('og_image', asset('images/logo/nusatawan-logo.png'))">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.nusatawan.com/">
-    <meta property="twitter:title" content="Nusatawan - Informasi Wisata & Prakiraan Cuaca Indonesia">
-    <meta property="twitter:description"
-        content="Rencanakan perjalanan wisata Anda dengan informasi destinasi dan prakiraan cuaca terintegrasi di seluruh Indonesia.">
-    <meta property="twitter:image" content="{{ asset('images/logo/nusatawan-logo.png') }}">
+    <meta property="twitter:url" content="@yield('canonical', url()->current())">
+    <meta property="twitter:title" content="@yield('og_title', 'Nusatawan - Informasi Wisata & Prakiraan Cuaca Indonesia')">
+    <meta property="twitter:description" content="@yield('og_description', 'Rencanakan perjalanan wisata Anda dengan informasi destinasi dan prakiraan cuaca terintegrasi di seluruh Indonesia.')">
+    <meta property="twitter:image" content="@yield('og_image', asset('images/logo/nusatawan-logo.png'))">
 
     <!-- Tambahan Meta untuk Mobile -->
     <meta name="theme-color" content="#1e3a8a">
@@ -49,7 +41,9 @@
     <!-- Metatags Tambahan untuk SEO -->
     <meta name="geo.region" content="ID">
     <meta name="geo.placename" content="Indonesia">
-    <link rel="canonical" href="https://www.nusatawan.com/">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+
+    @stack('head')
 
 
     <!-- SwiperJS CSS -->

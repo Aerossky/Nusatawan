@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Itinerary;
 use App\Models\ItineraryDestination;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -212,16 +213,26 @@ class ItineraryService
     {
         DB::beginTransaction();
 
-        Log::info('Debug service data:', $data);
-
         try {
-            // Find the itinerary
             $itinerary = Itinerary::findOrFail($data['itinerary_id']);
 
-            // Determine if we need to create a new destination or use an existing one
+            if ($itinerary->user_id !== Auth::id()) {
+                DB::rollBack();
+                throw new AuthorizationException('Anda tidak memiliki akses untuk menambahkan destinasi ke itinerary ini');
+            }
+
+            $existing = ItineraryDestination::where('itinerary_id', $itinerary->id)
+                ->where('visit_date_time', $data['visit_date_time'])
+                ->first();
+
+            if ($existing) {
+                DB::rollBack();
+                $formatted = Carbon::parse($data['visit_date_time'])->format('d/m/Y H:i');
+                throw new \InvalidArgumentException("Pada tanggal dan jam {$formatted} sudah ada destinasi yang ditambahkan. Silakan pilih waktu yang berbeda.");
+            }
+
             $destinationId = $data['destination_id'] ?? null;
 
-            // Get the next order index if not provided
             if (!isset($data['order_index'])) {
                 $maxOrder = ItineraryDestination::where('itinerary_id', $itinerary->id)
                     ->max('order_index') ?? 0;
@@ -230,11 +241,10 @@ class ItineraryService
                 $orderIndex = $data['order_index'];
             }
 
-            // Create the itinerary destination link
             $itineraryDestination = ItineraryDestination::create([
                 'itinerary_id' => $itinerary->id,
                 'destination_id' => $destinationId,
-                'visit_date_time' => $data['visit_date_time'], // Required field
+                'visit_date_time' => $data['visit_date_time'],
                 'order_index' => $orderIndex,
                 'note' => $data['note'] ?? null,
             ]);
@@ -244,8 +254,11 @@ class ItineraryService
             return [
                 'itinerary_destination_id' => $itineraryDestination->id,
                 'destination_id' => $destinationId,
-                'order_index' => $orderIndex
+                'order_index' => $orderIndex,
+                'visit_date_time' => $itineraryDestination->visit_date_time,
             ];
+        } catch (AuthorizationException|\InvalidArgumentException $e) {
+            throw $e;
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Failed to add destination to itinerary: ' . $e->getMessage());
@@ -271,8 +284,6 @@ class ItineraryService
             $itineraryDestination = ItineraryDestination::where('itinerary_id', $data['itinerary_id'])
                 ->where('id', $data['destination_id'])  // Changed from destination_id to id
                 ->firstOrFail();
-
-            Log::info('Debug service data:', ['itinerary_destination' => $itineraryDestination]);
 
             // Delete the itinerary destination
             $itineraryDestination->delete();

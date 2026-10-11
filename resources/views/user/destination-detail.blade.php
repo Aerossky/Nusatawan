@@ -1,5 +1,72 @@
 @extends('layouts.user')
-@section('title', 'Detail Destinasi')
+@section('title', $destination->place_name)
+@section('meta_description', Str::limit(strip_tags($destination->description), 155))
+@section('meta_keywords', 'wisata ' . strtolower($destination->place_name) . ', ' . strtolower($destination->administrative_area) . ', ' . strtolower($destination->province) . ', destinasi wisata Indonesia')
+@section('og_type', 'article')
+@section('og_title', $destination->place_name . ' — Destinasi Wisata di ' . $destination->province)
+@section('og_description', Str::limit(strip_tags($destination->description), 155))
+@section('og_image', $destination->primaryImage ? asset('storage/' . $destination->primaryImage->url) : asset('images/categories/' . $destination->category->name . '.jpg'))
+@section('canonical', route('user.destinations.show', $destination))
+
+@push('head')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "TouristAttraction",
+    "name": "{{ $destination->place_name }}",
+    "description": "{{ Str::limit(strip_tags($destination->description), 200) }}",
+    "url": "{{ route('user.destinations.show', $destination) }}",
+    "image": "{{ $destination->primaryImage ? asset('storage/' . $destination->primaryImage->url) : asset('images/categories/' . $destination->category->name . '.jpg') }}",
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "{{ $destination->latitude }}",
+        "longitude": "{{ $destination->longitude }}"
+    },
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "{{ $destination->administrative_area }}",
+        "addressRegion": "{{ $destination->province }}",
+        "addressCountry": "ID"
+    },
+    @if ($totalReview > 0)
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ number_format($destinationRating, 1) }}",
+        "reviewCount": "{{ $totalReview }}",
+        "bestRating": "5",
+        "worstRating": "1"
+    },
+    @endif
+    "touristType": "{{ $destination->category->name }}"
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Beranda",
+            "item": "{{ route('user.home') }}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Destinasi",
+            "item": "{{ route('user.destinations.index') }}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{{ $destination->place_name }}",
+            "item": "{{ route('user.destinations.show', $destination) }}"
+        }
+    ]
+}
+</script>
+@endpush
 
 @push('styles')
     @vite(['resources/css/custom/preview.css'])
@@ -28,7 +95,7 @@
             <img src="{{ $destination->primaryImage
                 ? asset('storage/' . $destination->primaryImage->url)
                 : asset('images/categories/' . $destination->category->name . '.jpg') }}"
-                alt="{{ $destination->place_name }}" class="w-full h-[300px] md:h-[500px] lg:h-[600px] max-h-96 object-cover">
+                alt="{{ $destination->place_name }}" class="w-full h-75 sm:h-100 md:h-125 lg:h-150 object-cover">
 
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
             <div class="absolute bottom-0 left-0 w-full p-6 text-white">

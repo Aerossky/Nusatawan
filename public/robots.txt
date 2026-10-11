@@ -1,2 +1,10 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /profil/
+Disallow: /rencana-perjalanan/
+Disallow: /destinasi-favorit/
+Disallow: /pengajuan-destinasi/
+
+Sitemap: https://nusatawan.aerossky.com/sitemap.xml

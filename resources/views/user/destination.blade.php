@@ -1,5 +1,10 @@
 @extends('layouts.user')
-@section('title', 'Destinasi')
+@section('title', 'Destinasi Wisata Indonesia')
+@section('meta_description', 'Jelajahi ratusan destinasi wisata terbaik di Indonesia. Temukan tempat wisata alam, budaya, dan kuliner dengan informasi lengkap dan prakiraan cuaca.')
+@section('meta_keywords', 'destinasi wisata Indonesia, tempat wisata, wisata alam, wisata budaya, rekomendasi wisata')
+@section('og_title', 'Destinasi Wisata Indonesia — Nusatawan')
+@section('og_description', 'Jelajahi ratusan destinasi wisata terbaik di Indonesia dengan informasi lengkap dan prakiraan cuaca.')
+@section('canonical', route('user.destinations.index'))
 
 @section('content')
     {{-- Search Box Section --}}

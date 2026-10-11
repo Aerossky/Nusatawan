@@ -27,6 +27,17 @@ class DestinationSubmissionController extends Controller
 
 
     /**
+     * Menampilkan daftar pengajuan destinasi milik user yang sedang login.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+        $destinationSubmissions = $this->destinationSubmissionService->getUserSubmissions(Auth::id());
+        return view('user.destination-submission-index', compact('destinationSubmissions'));
+    }
+
+    /**
      * Menampilkan form untuk membuat pengajuan destinasi.
      *
      * @return \Illuminate\View\View

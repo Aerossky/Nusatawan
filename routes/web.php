@@ -13,6 +13,7 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\ItineraryController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ReviewController;
+use App\Http\Controllers\SitemapController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,8 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 // Public Routes
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/rencana/{slug}', [ItineraryController::class, 'showPublic'])->name('user.itinerary.public');
 Route::get('/', [HomeController::class, 'index'])->name('user.home');
 Route::get('/tentang', function () {
     return view('user.about');
@@ -78,6 +81,7 @@ Route::middleware('auth.user')->name('user.')->group(function () {
         Route::get('/{itinerary}/ubah', [ItineraryController::class, 'edit'])->name('edit');
         Route::patch('/{itinerary}', [ItineraryController::class, 'update'])->name('update');
         Route::delete('/{itinerary}', [ItineraryController::class, 'destroy'])->name('destroy');
+        Route::post('/{itinerary}/publik', [ItineraryController::class, 'togglePublic'])->name('toggle-public');
 
         // Itinerary Destination Routes
         Route::post('/cari-destinasi-koordinat', [ItineraryController::class, 'searchDestinationsByCoordinates'])->name('destination.search.coordinates');
@@ -90,7 +94,8 @@ Route::middleware('auth.user')->name('user.')->group(function () {
 
     // Destination Submission Routes
     Route::prefix('pengajuan-destinasi')->name('destination-submission.')->group(function () {
-        Route::get('/', [DestinationSubmissionController::class, 'create'])->name('create');
+        Route::get('/', [DestinationSubmissionController::class, 'index'])->name('index');
+        Route::get('/baru', [DestinationSubmissionController::class, 'create'])->name('create');
         Route::post('/', [DestinationSubmissionController::class, 'store'])->name('store');
     });
 
