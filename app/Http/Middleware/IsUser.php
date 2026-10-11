@@ -24,7 +24,7 @@ class IsUser
                 return redirect()->route('admin.dashboard')->with('error', 'Halaman ini hanya untuk pengguna biasa.');
             }
 
-            return redirect()->route('auth.login')->with('error', 'Silahkan login terlebih dahulu.');
+            return redirect()->guest(route('auth.login'))->with('error', 'Silahkan login terlebih dahulu.');
         }
 
         return $next($request);
